@@ -21,12 +21,6 @@ public class ROT13  {
 
 
     public String crypt(String text) throws UnsupportedOperationException {
-       return text;
-
-    }
-
-    public String encrypt(String text) {
-        Integer shift = getShift();
         String crypt = "";
         char[] textArr = text.toCharArray();
         char[] textArr2 = text.toCharArray();
@@ -34,26 +28,48 @@ public class ROT13  {
             if (Character.isUpperCase(textArr[i])) {
                 if (textArr[i] > 65 && textArr[i] < 78) {
                     textArr[i] = (char) (textArr2[i] + 13);
-                } else if (textArr[i] >= 78 && textArr[i] < 92) {
+                } else if (textArr[i] >= 79 && textArr[i] < 92) {
                     textArr[i] = (char) (textArr2[i] - 13);
                 }
             }
             if (Character.isLowerCase((textArr[i]))) {
                 if (textArr[i] > 97 && textArr[i] < 110) {
                     textArr[i] = (char) (textArr2[i] + 13);
-                } else if (text.charAt(i) >= 110 && text.charAt(i) < 124) {
+                } else if (text.charAt(i) >= 111 && text.charAt(i) < 124) {
                     textArr[i] = (char) (textArr2[i] - 13);
                 }
             }
             crypt += textArr[i];
         }
-        System.out.println(crypt);
         return crypt;
     }
 
-    public String decrypt(String text) {
+    public String encrypt(String text) {
+        return crypt(text);
+    }
 
-        return text;
+    public String decrypt(String text) {
+        String crypt = "";
+        char[] textArr = text.toCharArray();
+        char[] textArr2 = text.toCharArray();
+        for (int i = 0; i < textArr.length; i++) {
+            if (Character.isUpperCase(textArr[i])) {
+                if (textArr[i] > 65 && textArr[i] <= 78) {
+                    textArr[i] = (char) (textArr2[i] + 13);
+                } else if (textArr[i] >= 79 && textArr[i] < 92) {
+                    textArr[i] = (char) (textArr2[i] - 13);
+                }
+            }
+            if (Character.isLowerCase((textArr[i]))) {
+                if (textArr[i] > 97 && textArr[i] <= 110) {
+                    textArr[i] = (char) (textArr2[i] + 13);
+                } else if (text.charAt(i) >= 111 && text.charAt(i) < 124) {
+                    textArr[i] = (char) (textArr2[i] - 13);
+                }
+            }
+            crypt += textArr[i];
+        }
+        return crypt;
     }
 
     public static String rotate(String s, Character c) {

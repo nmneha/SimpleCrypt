@@ -61,6 +61,7 @@ public class ROT13Test {
 
         // When
         String actual = cipher.encrypt(Q1);
+        System.out.println(cipher.encrypt(Q1));
         System.out.println(Q1);
         System.out.println(A1);
         // Then
@@ -68,6 +69,7 @@ public class ROT13Test {
 
         // When
         String actual2 = cipher.decrypt(Q2);
+        System.out.println(cipher.decrypt(Q2));
         System.out.println(Q2);
         System.out.println(A2);
         // Then
