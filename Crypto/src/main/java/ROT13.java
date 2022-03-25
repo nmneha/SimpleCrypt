@@ -21,27 +21,31 @@ public class ROT13  {
 
 
     public String crypt(String text) throws UnsupportedOperationException {
-        String crypt = encrypt(text);
-        return crypt;
+       return text;
+
     }
 
     public String encrypt(String text) {
+        Integer shift = getShift();
         String crypt = "";
-        for (int i = 0; i < text.length(); i++) {
-            if (Character.isUpperCase(text.charAt(i))) {
-                if (text.charAt(i) > 65 && text.charAt(i) < 79) {
-                    crypt += text.charAt(i) + 13;
-                } else if (text.charAt(i) > 78 && text.charAt(i) < 92) {
-                    crypt += text.charAt(i) - 13;
+        char[] textArr = text.toCharArray();
+        char[] textArr2 = text.toCharArray();
+        for (int i = 0; i < textArr.length; i++) {
+            if (Character.isUpperCase(textArr[i])) {
+                if (textArr[i] > 65 && textArr[i] < 78) {
+                    textArr[i] = (char) (textArr2[i] + 13);
+                } else if (textArr[i] >= 78 && textArr[i] < 92) {
+                    textArr[i] = (char) (textArr2[i] - 13);
                 }
             }
-            if (Character.isLowerCase((text.charAt(i)))) {
-                if (text.charAt(i) > 97 && text.charAt(i) < 111) {
-                    crypt += text.charAt(i) + 13;
-                } else if (text.charAt(i) > 110 && text.charAt(i) < 124) {
-                    crypt += text.charAt(i) - 13;
+            if (Character.isLowerCase((textArr[i]))) {
+                if (textArr[i] > 97 && textArr[i] < 110) {
+                    textArr[i] = (char) (textArr2[i] + 13);
+                } else if (text.charAt(i) >= 110 && text.charAt(i) < 124) {
+                    textArr[i] = (char) (textArr2[i] - 13);
                 }
             }
+            crypt += textArr[i];
         }
         System.out.println(crypt);
         return crypt;
