@@ -1,3 +1,5 @@
+import sun.nio.cs.US_ASCII;
+
 import static java.lang.Character.isLowerCase;
 import static java.lang.Character.isUpperCase;
 import static java.lang.Character.toLowerCase;
@@ -5,10 +7,12 @@ import static java.lang.Character.toLowerCase;
 public class ROT13  {
     Character cs;
     Character cf;
+    Integer shift;
 
     ROT13(Character cs, Character cf) {
         this.cs = cs;
         this.cf = cf;
+        this.shift = cf - cs;
     }
 
     ROT13() {
@@ -17,15 +21,11 @@ public class ROT13  {
 
 
     public String crypt(String text) throws UnsupportedOperationException {
-//        String alphabet = "abcdefghijklmnopqrstuvwxyz";
-//        String encrypt = "";
-//        for(int i = 0; i < alphabet.length(); i++) {
-//            if (i < alphabet.length()/4) {
-//                encrypt += alphabet.charAt(i) + 13;
-//            } else if (i > alphabet.length()/4) {
-//                encrypt += alphabet.charAt(i) - 13;
-//            }
-//         }
+        String crypt = encrypt(text);
+        return crypt;
+    }
+
+    public String encrypt(String text) {
         String crypt = "";
         for (int i = 0; i < text.length(); i++) {
             if (Character.isUpperCase(text.charAt(i))) {
@@ -47,17 +47,30 @@ public class ROT13  {
         return crypt;
     }
 
-    public String encrypt(String text) {
-        return text;
-    }
-
     public String decrypt(String text) {
+
         return text;
     }
 
     public static String rotate(String s, Character c) {
-
-        return "";
+        int shift = c - 'A';
+        String s1 = "";
+        char[] sArr = s.toCharArray();
+        char[] sArr2 = s.toCharArray();
+        int j = 0;
+        for (int i = 0; i < sArr.length; i++) {
+            if (i < s.length()/2) {
+                sArr[i] = sArr2[j + shift];
+            } else if (i >= s.length()/2) {
+                sArr[i] = sArr2[j - shift];
+            }
+            j++;
+            s1 += sArr[i];
+        }
+        return s1;
     }
 
+    public Integer getShift() {
+        return shift;
+    }
 }
