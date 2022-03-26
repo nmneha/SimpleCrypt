@@ -133,9 +133,4 @@ public class ROT13  {
         return file;
     }
 
-    public String sonnetDecrypt() {
-        String sonnetDecrypt = decrypt(sonnetEnc());
-        return sonnetDecrypt;
-    }
-
 }
