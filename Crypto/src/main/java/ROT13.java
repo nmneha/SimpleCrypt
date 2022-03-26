@@ -1,5 +1,8 @@
 import sun.nio.cs.US_ASCII;
 
+import java.io.*;
+import java.util.Scanner;
+
 import static java.lang.Character.isLowerCase;
 import static java.lang.Character.isUpperCase;
 import static java.lang.Character.toLowerCase;
@@ -8,10 +11,6 @@ public class ROT13  {
     Character cs;
     Character cf;
     Integer shift;
-    String upperAlpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    String upperShift = "NOPQRSTUVWXYZABCDEFGHIJKLM";
-    String lowerAlpha = "abcdefghijklmnopqrstuvwxyz";
-    String lowerShift = "nopqrstuvwxyzabcdefghijklm";
 
     ROT13(Character cs, Character cf) {
         this.cs = cs;
@@ -25,119 +24,118 @@ public class ROT13  {
 
 
     public String crypt(String text) throws UnsupportedOperationException {
-//        String crypt = "";
-//        char[] textArr = text.toCharArray();
-//        char[] textArr2 = text.toCharArray();
-//        for (int i = 0; i < textArr.length; i++) {
-//            if (Character.isUpperCase(textArr[i])) {
-//                if (textArr[i] > 65 && textArr[i] < 78) {
-//                    textArr[i] = (char) (textArr2[i] + 13);
-//                } else if (textArr[i] >= 79 && textArr[i] < 92) {
-//                    textArr[i] = (char) (textArr2[i] - 13);
-//                }
-//            }
-//            if (Character.isLowerCase((textArr[i]))) {
-//                if (textArr[i] > 97 && textArr[i] < 110) {
-//                    textArr[i] = (char) (textArr2[i] + 13);
-//                } else if (text.charAt(i) >= 111 && text.charAt(i) < 124) {
-//                    textArr[i] = (char) (textArr2[i] - 13);
-//                }
-//            }
-//            crypt += textArr[i];
-//        }
-//        return crypt;
+        StringBuilder crypt = new StringBuilder();
         for (int i = 0; i < text.length(); i++) {
-            if (Character.isUpperCase(text.charAt(i))) {
-                for (int j = 0; j < upperAlpha.length(); j++) {
-                    if (text.charAt(i) == (upperAlpha.charAt(j))) {
-                        text = text.replace(text.charAt(i), upperShift.charAt(j));
-                    }
-                }
-            } else if (Character.isLowerCase(text.charAt(i))) {
-                for (int k = 0; k < lowerAlpha.length(); k++) {
-                    if (text.charAt(i) == (lowerAlpha.charAt(k))) {
-                        text = text.replace(text.charAt(i), lowerShift.charAt(k));
-                    }
-                }
+            char c = text.charAt(i);
+            if ((c >= 'a' && c <= 'm') || (c >= 'A' && c <= 'M')) {
+                c += shift;
+            } else if ((c >= 'n' && c <= 'z') || (c >= 'N' && c <= 'Z')) {
+                c -= shift;
             }
-
+            crypt.append(c);
         }
-        return text;
+        return crypt.toString();
     }
 
     public String encrypt(String text) {
-        for (int i = 0; i < text.length(); i++) {
-            if (Character.isUpperCase(text.charAt(i))) {
-                for (int j = 0; j < upperAlpha.length(); j++) {
-                    if (text.charAt(i) == (upperAlpha.charAt(j))) {
-                        text = text.replace(text.charAt(i), upperShift.charAt(j));
-                        continue;
-                    }
-                }
-            } else if (Character.isLowerCase(text.charAt(i))) {
-                for (int k = 0; k < lowerAlpha.length(); k++) {
-                    if (text.charAt(i) == (lowerAlpha.charAt(k))) {
-                        text = text.replace(text.charAt(i), lowerShift.charAt(k));
-                        continue;
-                    }
-                }
-            }
-
-        }
-        return text;
+        return crypt(text);
     }
 
     public String decrypt(String text) {
-        String crypt = "";
-        char[] textArr = text.toCharArray();
-        char[] textArr2 = text.toCharArray();
-        for (int i = 0; i < textArr.length; i++) {
-            if (Character.isUpperCase(textArr[i])) {
-                if (textArr[i] > 65 && textArr[i] <= 78) {
-                    textArr[i] = (char) (textArr2[i] + 13);
-                } else if (textArr[i] >= 79 && textArr[i] < 92) {
-                    textArr[i] = (char) (textArr2[i] - 13);
-                }
-            }
-            if (Character.isLowerCase((textArr[i]))) {
-                if (textArr[i] > 97 && textArr[i] <= 110) {
-                    textArr[i] = (char) (textArr2[i] + 13);
-                } else if (text.charAt(i) >= 111 && text.charAt(i) < 124) {
-                    textArr[i] = (char) (textArr2[i] - 13);
-                }
-            }
-            crypt += textArr[i];
-        }
-        return crypt;
+        return crypt(text);
     }
 
     public static String rotate(String s, Character c) {
         int shift = c - 'A';
-        String s1 = "";
-        char[] sArr = s.toCharArray();
-        char[] sArr2 = s.toCharArray();
-        int j = 0;
-        for (int i = 0; i < sArr.length; i++) {
+        StringBuilder rotate = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            char r = s.charAt(i);
             if (i < s.length()/2) {
-                sArr[i] = sArr2[j + shift];
+                r += shift;
             } else if (i >= s.length()/2) {
-                sArr[i] = sArr2[j - shift];
+                r -= shift;
             }
-            j++;
-            s1 += sArr[i];
+            rotate.append(r);
         }
-        return s1;
+        return rotate.toString();
     }
 
-//     if ((text.charAt(i) >= 64 && text.charAt(i) < 79)) {
-//        text = text.replace(text.charAt(i), (char) (text.charAt(i) + 13));
-//    } else if ((text.charAt(i) >= 79 && text.charAt(i) < 92)){
-//        text = text.replace(text.charAt(i), (char) (text.charAt(i) - 13));
-//        //lowerCase
-//    } else if ((text.charAt(i) >= 98 && text.charAt(i) < 111)) {
-//        text = text.replace(text.charAt(i), (char) (text.charAt(i) + 13));
-//    } else if ((text.charAt(i) >= 111 && text.charAt(i) < 124)) {
-//        text = text.replace(text.charAt(i), (char) (text.charAt(i) - 13));
-//    }
+    public String sonnetReader() {
+        String line = "";
+        String file = "";
+        Scanner reader = null;
+        try {
+            reader = new Scanner(new File("/Users/nusera/Development/SimpleCrypt/sonnet18.txt"));
+            {
+                while (reader.hasNext()) {
+                    line = reader.nextLine();
+                    file += line + "\n";
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            assert reader != null;
+            reader.close();
+        }
+        return file;
+    }
+
+    public String sonnetEnc() {
+        String sonnet18 = crypt(sonnetReader());
+        return sonnet18;
+    }
+
+    public static void createFile() {
+        try {
+            File sonnet18enc = new File("/Users/nusera/Development/SimpleCrypt/sonnet18.enc");
+            if (sonnet18enc.createNewFile()) {
+                System.out.println("File created");
+            } else {
+                System.out.println("File exists");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+        public void fileWriter() {
+        createFile();
+        try {
+            FileWriter sonnetEnc = new FileWriter("/Users/nusera/Development/SimpleCrypt/sonnet18.enc"); {
+                sonnetEnc.write(sonnetEnc());
+                sonnetEnc.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String sonnetEncReader() {
+        fileWriter();
+        String line = "";
+        String file = "";
+        Scanner reader = null;
+        try {
+            reader = new Scanner(new File("/Users/nusera/Development/SimpleCrypt/sonnet18.enc"));
+            {
+                while (reader.hasNext()) {
+                    line = reader.nextLine();
+                    file += line + "\n";
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            assert reader != null;
+            reader.close();
+        }
+        return file;
+    }
+
+    public String sonnetDecrypt() {
+        String sonnetDecrypt = decrypt(sonnetEnc());
+        return sonnetDecrypt;
+    }
 
 }
